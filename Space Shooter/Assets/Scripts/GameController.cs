@@ -1,4 +1,4 @@
-﻿ using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI; //Using cái thư viện này để dùng những thứ trong Canvas
 
@@ -11,16 +11,33 @@ public class GameController : MonoBehaviour {
     public float waveWait;
     public Text scoreText;
     public Text highScoreText;
+    public Text restartText;
+    public Text gameOverText;
+    private bool gameOver;
+    private bool restart;
     public int highScore;
     public int lastHighScore;
     private int score; 
     void Start() {
+        gameOver = false;
+        restart = false;
+        restartText.text = "";
+        gameOverText.text = "";
         score = 0;
-        highScore = lastHighScore;
         UpdateScore();
         UpdateHighScore();
         StartCoroutine (SpawnWaves());
     }
+    void Update() {
+        if (restart) {
+            if (Input.GetKeyDown(KeyCode.R)) {
+                Application.LoadLevel(Application.loadedLevel);
+                highScore = lastHighScore;
+
+            }
+        }
+    }
+
     IEnumerator SpawnWaves() {
         yield return new WaitForSeconds(startWait);
         while (true)
@@ -33,7 +50,12 @@ public class GameController : MonoBehaviour {
                 yield return new WaitForSeconds(spawnWait);
             }
             yield return new WaitForSeconds(waveWait);
-
+            if (gameOver) {
+                restartText.text = "Press R for Restart";
+                restart = true;
+                highScore = lastHighScore;
+                break;
+            } 
         }
     }
     public void AddScore(int newScoreValue) {
@@ -44,7 +66,7 @@ public class GameController : MonoBehaviour {
         scoreText.text = "Score: " + score.ToString();
     }
     public void End() {
-        if (score <= highScore) return;
+        if (score < highScore) return;
         else
         {
             highScore = score;
@@ -54,5 +76,9 @@ public class GameController : MonoBehaviour {
     }
     void UpdateHighScore() {
         highScoreText.text = "High Score: " + highScore.ToString();
+    }
+    public void GameOver() {
+        gameOverText.text = "Game Over!";
+        gameOver = true;
     }
 }
