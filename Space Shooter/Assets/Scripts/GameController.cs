@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System.Collections;
+using UnityEngine.UI; //Using cái thư viện này để dùng những thứ trong Canvas
 
 public class GameController : MonoBehaviour {
     public GameObject hazard;
@@ -8,7 +9,16 @@ public class GameController : MonoBehaviour {
     public float spawnWait;
     public float startWait;
     public float waveWait;
+    public Text scoreText;
+    public Text highScoreText;
+    public int highScore;
+    public int lastHighScore;
+    private int score; 
     void Start() {
+        score = 0;
+        highScore = lastHighScore;
+        UpdateScore();
+        UpdateHighScore();
         StartCoroutine (SpawnWaves());
     }
     IEnumerator SpawnWaves() {
@@ -25,5 +35,24 @@ public class GameController : MonoBehaviour {
             yield return new WaitForSeconds(waveWait);
 
         }
+    }
+    public void AddScore(int newScoreValue) {
+        score += newScoreValue;
+        UpdateScore();
+    }
+    void UpdateScore() {
+        scoreText.text = "Score: " + score.ToString();
+    }
+    public void End() {
+        if (score <= highScore) return;
+        else
+        {
+            highScore = score;
+            lastHighScore = highScore;
+            UpdateHighScore();
+        }
+    }
+    void UpdateHighScore() {
+        highScoreText.text = "High Score: " + highScore.ToString();
     }
 }
