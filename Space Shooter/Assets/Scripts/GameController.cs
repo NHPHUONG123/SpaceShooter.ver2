@@ -16,7 +16,6 @@ public class GameController : MonoBehaviour {
     private bool gameOver;
     private bool restart;
     public int highScore;
-    public int lastHighScore;
     private int score; 
     void Start() {
         gameOver = false;
@@ -24,6 +23,9 @@ public class GameController : MonoBehaviour {
         restartText.text = "";
         gameOverText.text = "";
         score = 0;
+        if (PlayerPrefs.HasKey("High Score") == true) {
+           highScore = PlayerPrefs.GetInt("High Score");
+        }
         UpdateScore();
         UpdateHighScore();
         StartCoroutine (SpawnWaves());
@@ -32,8 +34,6 @@ public class GameController : MonoBehaviour {
         if (restart) {
             if (Input.GetKeyDown(KeyCode.R)) {
                 Application.LoadLevel(Application.loadedLevel);
-                highScore = lastHighScore;
-
             }
         }
     }
@@ -53,7 +53,6 @@ public class GameController : MonoBehaviour {
             if (gameOver) {
                 restartText.text = "Press R for Restart";
                 restart = true;
-                highScore = lastHighScore;
                 break;
             } 
         }
@@ -70,8 +69,8 @@ public class GameController : MonoBehaviour {
         else
         {
             highScore = score;
-            lastHighScore = highScore;
             UpdateHighScore();
+            PlayerPrefs.SetInt("High Score", highScore);
         }
     }
     void UpdateHighScore() {
