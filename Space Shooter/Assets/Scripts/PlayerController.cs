@@ -29,8 +29,11 @@ public class PlayerController : MonoBehaviour
     public Boundary boundary;
     public GameObject shot;
     public Transform shotSpawn;
+    public GameObject shotLaser;
+    public Transform shotLaserSpawn;
     public float fireRate;
     private float nextFire;
+    public float lifeTime;
     void Update() {
         if (Input.GetButton("Fire1") && Time.time > nextFire)
         {
@@ -50,6 +53,11 @@ public class PlayerController : MonoBehaviour
             Instantiate(shot7, shot7Spawn.position, shot7Spawn.rotation);
             Instantiate(shot8, shot8Spawn.position, shot8Spawn.rotation);
             Instantiate(shot9, shot9Spawn.position, shot9Spawn.rotation);
+            GetComponent<AudioSource>().Play();
+        }
+        else if (Input.GetButton("Jump") && Time.time > nextFire) {
+            nextFire = Time.time + fireRate*3;
+            Instantiate(shotLaser, shotLaserSpawn.position, shotLaserSpawn.rotation);
             GetComponent<AudioSource>().Play();
         }
     }

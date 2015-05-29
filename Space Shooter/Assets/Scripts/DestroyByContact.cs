@@ -32,8 +32,12 @@ public class DestroyByContact : MonoBehaviour {
         else {
             gameController.AddScore(scoreValue); 
         }
-        Destroy(other.gameObject);
+        if (other.tag == "Laser Bolt")
+        {
+            Destroy(gameObject);           
+        }
         Destroy(gameObject);
+        Destroy(other.gameObject);
        
     }
 }
