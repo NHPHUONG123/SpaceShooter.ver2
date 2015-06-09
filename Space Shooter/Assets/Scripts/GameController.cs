@@ -4,7 +4,9 @@ using UnityEngine.UI; //Using cái thư viện này để dùng những thứ tr
 
 public class GameController : MonoBehaviour {
     public GameObject hazard;
+    public GameObject hazard2;
     public Vector3 spawnValue;
+    public Vector3 spawnValue1;
     public int hazardCount;
     public float spawnWait;
     public float startWait;
@@ -46,8 +48,13 @@ public class GameController : MonoBehaviour {
             {
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValue.x, spawnValue.x), spawnValue.y, spawnValue.z);
                 Quaternion spawnRotation = Quaternion.identity;
+                Vector3 spawnPosition1 = new Vector3(Random.Range(-spawnValue1.x, spawnValue.x), spawnValue1.y, spawnValue1.z);
+                Quaternion spawnRotation1 = Quaternion.identity;
                 Instantiate(hazard, spawnPosition, spawnRotation);
                 yield return new WaitForSeconds(spawnWait);
+                Instantiate(hazard2, spawnPosition1, spawnRotation1);
+                yield return new WaitForSeconds(spawnWait);
+ 
             }
             yield return new WaitForSeconds(waveWait);
             if (gameOver) {

@@ -18,7 +18,7 @@ public class DestroyByContact : MonoBehaviour {
 
 
     void OnTriggerEnter(Collider other) {
-        if (other.tag == "Boundary") {
+        if (other.tag == "Boundary" || other.tag == "Asteroid") {
             return;
         }
         Instantiate(explosion, transform.position, transform.rotation);
