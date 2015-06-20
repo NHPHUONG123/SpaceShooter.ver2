@@ -46,6 +46,12 @@ public class GameController : MonoBehaviour {
         {
             for (int i = 0; i < hazardCount; i++)
             {
+                if (gameOver)
+                {
+                    restartText.text = "Press R for Restart";
+                    restart = true;
+                    break;
+                } 
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValue.x, spawnValue.x), spawnValue.y, spawnValue.z);
                 Quaternion spawnRotation = Quaternion.identity;
                 Vector3 spawnPosition1 = new Vector3(Random.Range(-spawnValue1.x, spawnValue.x), spawnValue1.y, spawnValue1.z);
@@ -57,11 +63,7 @@ public class GameController : MonoBehaviour {
  
             }
             yield return new WaitForSeconds(waveWait);
-            if (gameOver) {
-                restartText.text = "Press R for Restart";
-                restart = true;
-                break;
-            } 
+            
         }
     }
     public void AddScore(int newScoreValue) {

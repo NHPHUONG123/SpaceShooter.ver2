@@ -34,6 +34,23 @@ public class PlayerController : MonoBehaviour
     public float fireRate;
     private float nextFire;
     public float lifeTime;
+    public GameObject playerExplosion;
+    public GameObject enemyExplosion;
+    private GameController gameController;
+
+    void Start()
+    {
+        GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+        if (gameControllerObject != null)
+        {
+            gameController = gameControllerObject.GetComponent<GameController>();
+        }
+        if (gameController == null)
+        {
+            Debug.Log("Cannot find 'Game Controller' script");
+        }
+    }
+
     void Update() {
         if (Input.GetButton("Fire1") && Time.time > nextFire)
         {
@@ -76,5 +93,14 @@ public class PlayerController : MonoBehaviour
         );
 
         GetComponent<Rigidbody>().rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+    }
+    void OnTriggerEnter(Collider other) {
+        if (other.tag == "Enemy" || other.tag == "Enemy Bolt")
+        {
+            Instantiate(playerExplosion, transform.position, transform.rotation);
+            Destroy(gameObject);
+            Instantiate(enemyExplosion, other.transform.position, other.transform.rotation);
+            Destroy(other.gameObject);
+        }
     }
 }
